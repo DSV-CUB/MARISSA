@@ -1,9 +1,9 @@
 # MARISSA - Magnetic Resonance Imaging Software for Standardization
 
-##Preparation
+## Preparation
 In order to use the MARISSA software please install the software according to the provided MARISSA_User_Manual.pdf
 
-##Information
+## Information
 MARISSA is a software to enable the post-hoc standardization of quantitative measurements in magnetic resonance imaging. The current version was tested
 as a first proof-of-concept on native, midventricular parametric T1 maps in cardiovascular manetic resonance imaging. Its application on
 other quantification methods, such as parametric T2 mapping, or tissues, i.e. the liver, is not limited, but yet not tested.
