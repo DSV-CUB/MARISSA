@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>dialog_add_edit_setup</class>
+ <widget class="QDialog" name="dialog_add_edit_setup">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>720</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MARISSA - Segmentation</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
+  </property>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>680</y>
+     <width>720</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>12</pointsize>
+     <weight>9</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(207, 207, 207);
+font: 75 12pt &quot;Arial&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Charité Universitätsmedizin Berlin | AG CMR</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabs_segmentation">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>701</width>
+     <height>651</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>MS Shell Dlg 2</family>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QTabBar::tab {
+color: rgb(255, 179, 0);
+background-color: rgb(255, 242, 226);
+min-width: 200px
+}
+QTabBar::tab:selected 
+{
+color:rgb(255, 242, 226);
+background-color:  rgb(255, 179, 0);
+font-weight: bold;
+}</string>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="tab_import">
+    <attribute name="title">
+     <string>Import</string>
+    </attribute>
+    <widget class="QRadioButton" name="rb_npy">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>530</y>
+       <width>202</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>numpy file (.npy)</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="rb_pickle">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>550</y>
+       <width>202</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>pickle file (.pickle)</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_icon_import_segmentation">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>590</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Nova</family>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+color: rgb(0, 170, 0);
+background-color: rgb(225, 255, 225);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(0, 170, 0);
+background-color: rgb(225, 255, 225);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color: rgb(225, 255, 225);
+background-color: rgb(0, 170, 0);
+border: 0px;
+font-weight: bold;
+}
+</string>
+     </property>
+     <property name="text">
+      <string>import</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>390</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>description</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txt_description_import">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>410</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-color: rgb(238, 238, 238);
+border-width : 2px;
+border-style:solid;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>460</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>creator</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txt_creator_import">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>480</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-color: rgb(238, 238, 238);
+border-width : 2px;
+border-style:solid;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>400</y>
+       <width>471</width>
+       <height>211</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(207, 207, 207);</string>
+     </property>
+     <property name="text">
+      <string>The combination of description, creator and corresponding SOPInstanceUID represent the unique segmentationID. Please make sure that the segmentation files have the SOPInstanceUID as filename. Segmentations that correspond to DICOM data that is not in this project cannot be imported. Existing segmentationIDs are skipped and not overwritten.</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignJustify|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_rule">
+    <attribute name="title">
+     <string>Rule</string>
+    </attribute>
+    <widget class="QListWidget" name="lst_segmentation_1">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>461</width>
+       <height>271</height>
+      </rect>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>250</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Segmentations</string>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="lst_metric">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>30</y>
+       <width>200</width>
+       <height>81</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="opt_operator">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>120</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-color: rgb(238, 238, 238);
+border-width : 2px;
+border-style:solid;</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>&gt;</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>&lt;</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>&gt;=</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>&lt;=</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>==</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>&lt;&gt;</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QDoubleSpinBox" name="sb_value">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>150</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-color: rgb(238, 238, 238);
+border-width : 2px;
+border-style:solid;</string>
+     </property>
+     <property name="minimum">
+      <double>-10000.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>10000.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.010000000000000</double>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_icon_new_rule">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>180</y>
+       <width>201</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Nova</family>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+color: rgb(0, 170, 0);
+background-color: rgb(225, 255, 225);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(0, 170, 0);
+background-color: rgb(225, 255, 225);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color: rgb(225, 255, 225);
+background-color: rgb(0, 170, 0);
+border: 0px;
+font-weight: bold;
+}
+</string>
+     </property>
+     <property name="text">
+      <string>add rule</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txt_description_rule">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>410</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-color: rgb(238, 238, 238);
+border-width : 2px;
+border-style:solid;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>390</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>description</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>10</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Metric</string>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="lst_rule">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>250</y>
+       <width>200</width>
+       <height>81</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>230</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Rules</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_icon_delete_rule">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>340</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Nova</family>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+color:rgb(255, 0, 0);
+background-color: rgb(255, 220, 220);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color:rgb(255, 0, 0);
+background-color: rgb(255, 220, 220);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color:rgb(255, 220, 220);
+background-color: rgb(255, 0, 0);
+border: 0px;
+font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>delete rule</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_icon_new_segmentation_rule">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>590</y>
+       <width>201</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial Nova</family>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+color: rgb(0, 170, 0);
+background-color: rgb(225, 255, 225);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(0, 170, 0);
+background-color: rgb(225, 255, 225);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color: rgb(225, 255, 225);
+background-color: rgb(0, 170, 0);
+border: 0px;
+font-weight: bold;
+}
+</string>
+     </property>
+     <property name="text">
+      <string>new</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txt_creator_rule">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>480</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-color: rgb(238, 238, 238);
+border-width : 2px;
+border-style:solid;</string>
+     </property>
+     <property name="text">
+      <string>marissacombined</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>490</x>
+       <y>460</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>creator</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="opt_connector">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>310</y>
+       <width>200</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-color: rgb(238, 238, 238);
+border-width : 2px;
+border-style:solid;</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>AND</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>OR</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>XOR</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>AND NOT</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>OR NOT</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>XOR NOT</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QListWidget" name="lst_segmentation_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>340</y>
+       <width>461</width>
+       <height>271</height>
+      </rect>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_caseg">
+    <attribute name="title">
+     <string>CASEG</string>
+    </attribute>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

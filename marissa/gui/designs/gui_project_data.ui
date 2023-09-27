@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="windowTitle">
+   <string>MARISSA - Project Data</string>
+  </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>670</y>
+      <width>1281</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(207, 207, 207);
+font: 75 12pt &quot;Arial&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Charité Universitätsmedizin Berlin | AG CMR</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QTabWidget" name="tabs_data">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>1061</width>
+      <height>631</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTabBar::tab {
+color: rgb(255, 179, 0);
+background-color: rgb(255, 242, 226);
+min-width: 200px
+}
+QTabBar::tab:selected 
+{
+color:rgb(255, 242, 226);
+background-color:  rgb(255, 179, 0);
+font-weight: bold;
+}</string>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab_data">
+     <attribute name="title">
+      <string>DICOM Data</string>
+     </attribute>
+     <widget class="QTableWidget" name="tbl_data">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>1031</width>
+        <height>581</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_segmentation">
+     <attribute name="title">
+      <string>Segmentation</string>
+     </attribute>
+     <widget class="QTableWidget" name="tbl_segmentation">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>10</y>
+        <width>1041</width>
+        <height>581</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="btn_export">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>460</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Nova</family>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+color: rgb(255, 179, 0);
+background-color: rgb(255, 242, 226);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(255, 179, 0);
+background-color: rgb(255, 242, 226);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color:rgb(255, 242, 226);
+background-color:  rgb(255, 179, 0);
+border: 0px;
+font-weight: bold;
+}</string>
+    </property>
+    <property name="text">
+     <string>export</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>40</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(0, 0, 255);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>SELECT</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>290</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(0, 0, 255);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>WHERE</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_import_external">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>590</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Nova</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+color: rgb(255, 179, 0);
+background-color: rgb(255, 242, 226);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(255, 179, 0);
+background-color: rgb(255, 242, 226);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color:rgb(255, 242, 226);
+background-color:  rgb(255, 179, 0);
+border: 0px;
+font-weight: bold;
+}</string>
+    </property>
+    <property name="text">
+     <string>external project</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_icon_delete">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>630</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Nova</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+color:rgb(255, 0, 0);
+background-color: rgb(255, 220, 220);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color:rgb(255, 0, 0);
+background-color: rgb(255, 220, 220);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color:rgb(255, 220, 220);
+background-color: rgb(255, 0, 0);
+border: 0px;
+font-weight: bold;
+}</string>
+    </property>
+    <property name="text">
+     <string>delete</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_import_directory">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>530</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Nova</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+color: rgb(255, 179, 0);
+background-color: rgb(255, 242, 226);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(255, 179, 0);
+background-color: rgb(255, 242, 226);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color:rgb(255, 242, 226);
+background-color:  rgb(255, 179, 0);
+border: 0px;
+font-weight: bold;
+}</string>
+    </property>
+    <property name="text">
+     <string>directory</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="txt_where">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>309</y>
+      <width>201</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_icon_new_segmentation">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>430</y>
+      <width>201</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Nova</family>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+color: rgb(0, 170, 0);
+background-color: rgb(225, 255, 225);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(0, 170, 0);
+background-color: rgb(225, 255, 225);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color: rgb(225, 255, 225);
+background-color: rgb(0, 170, 0);
+border: 0px;
+font-weight: bold;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>new segmentation</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="lst_columns">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>60</y>
+      <width>201</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::MultiSelection</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_update">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>390</y>
+      <width>200</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Nova</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+color: rgb(0, 0, 255);
+background-color: rgb(155, 202, 255);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(0, 0, 255);
+background-color: rgb(155, 202, 255);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color: rgb(155, 202, 255);
+background-color: rgb(0, 0, 255);
+border: 0px;
+font-weight: bold;
+}</string>
+    </property>
+    <property name="text">
+     <string>update</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_import">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>500</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 179, 0);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>import segmentation from</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_import_project">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>560</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Nova</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+color: rgb(255, 179, 0);
+background-color: rgb(255, 242, 226);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(255, 179, 0);
+background-color: rgb(255, 242, 226);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color:rgb(255, 242, 226);
+background-color:  rgb(255, 179, 0);
+border: 0px;
+font-weight: bold;
+}</string>
+    </property>
+    <property name="text">
+     <string>other project</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

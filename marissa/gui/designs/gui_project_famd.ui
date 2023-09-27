@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="windowTitle">
+   <string>MARISSA - Project Data</string>
+  </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>670</y>
+      <width>1281</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(207, 207, 207);
+font: 75 12pt &quot;Arial&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Charité Universitätsmedizin Berlin | AG CMR</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tbl_data">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>1251</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::MultiSelection</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectRows</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>1251</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(240, 240, 240);</string>
+    </property>
+    <property name="text">
+     <string>Select the data to include either manually or via SQL</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_data_deselect_sql">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>540</y>
+      <width>200</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Nova</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+color: rgb(0, 0, 255);
+background-color: rgb(155, 202, 255);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(0, 0, 255);
+background-color: rgb(155, 202, 255);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color: rgb(155, 202, 255);
+background-color: rgb(0, 0, 255);
+border: 0px;
+font-weight: bold;
+}</string>
+    </property>
+    <property name="text">
+     <string>deselect SQL</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="txt_data_where">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>510</y>
+      <width>831</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>490</y>
+      <width>811</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(0, 0, 255);
+border: 0px;</string>
+    </property>
+    <property name="text">
+     <string>SELECT SOPInstanceUID FROM tbl_data WHERE</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_data_select_all">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>510</y>
+      <width>200</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Nova</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+color: rgb(0, 0, 255);
+background-color: rgb(155, 202, 255);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(0, 0, 255);
+background-color: rgb(155, 202, 255);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color: rgb(155, 202, 255);
+background-color: rgb(0, 0, 255);
+border: 0px;
+font-weight: bold;
+}</string>
+    </property>
+    <property name="text">
+     <string>select all</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_data_select_sql">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>510</y>
+      <width>200</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Nova</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+color: rgb(0, 0, 255);
+background-color: rgb(155, 202, 255);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(0, 0, 255);
+background-color: rgb(155, 202, 255);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color: rgb(155, 202, 255);
+background-color: rgb(0, 0, 255);
+border: 0px;
+font-weight: bold;
+}</string>
+    </property>
+    <property name="text">
+     <string>select SQL</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_data_deselect_all">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>540</y>
+      <width>200</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Nova</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+color: rgb(0, 0, 255);
+background-color: rgb(155, 202, 255);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(0, 0, 255);
+background-color: rgb(155, 202, 255);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color: rgb(155, 202, 255);
+background-color: rgb(0, 0, 255);
+border: 0px;
+font-weight: bold;
+}</string>
+    </property>
+    <property name="text">
+     <string>deselect all</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="opt_setup">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>590</y>
+      <width>201</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-color: rgb(238, 238, 238);
+border-width : 2px;
+border-style:solid;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_famd">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>630</y>
+      <width>200</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial Nova</family>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+color: rgb(0, 170, 0);
+background-color: rgb(225, 255, 225);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color: rgb(0, 170, 0);
+background-color: rgb(225, 255, 225);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color: rgb(225, 255, 225);
+background-color: rgb(0, 170, 0);
+border: 0px;
+font-weight: bold;
+}</string>
+    </property>
+    <property name="text">
+     <string>FAMD Analysis</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
