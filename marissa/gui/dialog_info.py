@@ -13,9 +13,10 @@ class GUI(creator_dialog.Inheritance):
         str_Info = str_Info + "Date:\t\t" + self.configuration.database.select("SELECT parameter FROM tbl_info WHERE ID = 'timestamp'")[0][0] + "\n"
         #str_Info = str_Info + "\n"
         str_Info = str_Info + "Author:\t\t" + self.configuration.database.select("SELECT parameter FROM tbl_info WHERE ID = 'author'")[0][0] + "\n"
-        str_Info = str_Info + "Contact:\t\t" + self.configuration.database.select("SELECT parameter FROM tbl_info WHERE ID = 'contact'")[0][0].replace("\n", "\n\t\t")
+        str_Info = str_Info + "Contact:\t\t" + self.configuration.database.select("SELECT parameter FROM tbl_info WHERE ID = 'contact'")[0][0].replace("\n", "\n\t\t") + "\n"
+        str_Info = str_Info + "License:\t\t" + self.configuration.database.select("SELECT parameter FROM tbl_info WHERE ID = 'license'")[0][0]
 
-        self.lbl_Info.setText(str_Info)
+        self.lbl_Info.setPlainText(str_Info)
         self.lbl_Info.mousePressEvent = self.lbl_Info_clicked
         return
 
@@ -24,13 +25,13 @@ class GUI(creator_dialog.Inheritance):
         return
 
     def lbl_Info_clicked(self, event):
-        start = self.lbl_Info.text().find("http")
+        start = self.lbl_Info.toPlainText().find("http")
         if start >= 0:
-            end = self.lbl_Info.text().find("\n", start)
+            end = self.lbl_Info.toPlainText().find("\n", start)
             if end > 0:
-                url = self.lbl_Info.text()[start:end+1]
+                url = self.lbl_Info.toPlainText()[start:end+1]
             else:
-                url = self.lbl_Info.text()[start:]
+                url = self.lbl_Info.toPlainText()[start:]
             webbrowser.open_new_tab(url)
         return
 

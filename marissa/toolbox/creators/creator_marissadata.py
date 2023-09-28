@@ -34,10 +34,11 @@ class Inheritance:
         for key in vars(self).keys():
             obj[key] = eval("self." + key)
 
-        file = open(os.path.join(path_out, self.SOPinstanceUID + "_" + tool_general.string_stripper(self.creation, []) + ".marissadata"), "wb")
+        path_save = os.path.join(path_out, self.SOPinstanceUID + "_" + tool_general.string_stripper(self.creation, []) + ".marissadata")
+        file = open(path_save, "wb")
         pickle.dump(obj, file)
         file.close()
-        return
+        return path_save
 
     def load(self, path_in):
         if path_in.endswith(".marissadata"):

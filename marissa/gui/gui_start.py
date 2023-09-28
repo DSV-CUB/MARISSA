@@ -151,7 +151,6 @@ class GUI(creator_gui.Inheritance):
         dialog.exec()
         return
 
-
 if __name__ == "__main__":
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
     global gui_run

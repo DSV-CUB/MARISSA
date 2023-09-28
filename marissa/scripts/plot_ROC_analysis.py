@@ -36,7 +36,7 @@ def plot_roc(ax, roc_analysis, c="blue", optimum_colour="#ff0000", optimum_text=
     if not optimum_colour is None:
         ax.scatter([roc_analysis["optimal_roc_point"][0] * 100], [roc_analysis["optimal_roc_point"][1] * 100], edgecolor=optimum_colour, facecolor="None", lw=2, s=80, zorder=zorder)
         if optimum_text:
-            ax.text(roc_analysis["optimal_roc_point"][0] * 100 + 1, roc_analysis["optimal_roc_point"][1] * 100 - 1, "optimum\nthreshold = " +  "{:.2f}".format(np.round(roc_analysis["optimal_threshhold"], 2)) + " ms\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + " %\nspecificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", c=optimum_colour, horizontalalignment="left", verticalalignment="top", zorder=zorder)
+            ax.text(roc_analysis["optimal_roc_point"][0] * 100 + 1, roc_analysis["optimal_roc_point"][1] * 100 - 1, "optimum\nthreshold = " + "{:.2f}".format(np.round(roc_analysis["optimal_threshhold"], 2)) + " ms\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + " %\nspecificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", c=optimum_colour, horizontalalignment="left", verticalalignment="top", zorder=zorder)
     return
 
 def plot_roc_overhead(ax):

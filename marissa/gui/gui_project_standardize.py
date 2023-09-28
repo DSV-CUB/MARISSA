@@ -7,7 +7,7 @@ import datetime
 from PyQt5 import QtWidgets, QtGui, QtCore
 
 from marissa.toolbox.creators import creator_gui
-from marissa.toolbox.tools import tool_general, tool_pydicom, tool_hadler
+from marissa.toolbox.tools import tool_general, tool_pydicom, tool_hadler, tool_excel
 from marissa.gui import gui_project
 
 class GUI(creator_gui.Inheritance):
@@ -208,7 +208,25 @@ class GUI(creator_gui.Inheritance):
 
                 marissadata = self.configuration.project.get_standardization(dcm, mask, setupID, skip_unknown=skip_unknown)
                 case_path = tool_general.save_dcm(dcm, path_out)
-                marissadata.save(case_path)
+                md_path = marissadata.save(case_path)
+
+                xlsx = tool_excel.Setup(md_path.replace(".marissadata", ".xlsx"))
+                xlsx.add_worksheet("MARISSA")
+                xlsx.write_line("MARISSA", ["SOPinstanceUID", str(dcm[0x0008, 0x0018].value)])
+                xlsx.write_line("MARISSA", ["MARISSA Version", str(marissadata.version).replace(",",".")])
+                xlsx.write_line("MARISSA", ["MARISSA Project", str(self.configuration.project.select("SELECT parameter FROM tbl_info WHERE ID = 'name'")[0][0])])
+                xlsx.write_line("MARISSA", ["Standardization", self.configuration.project.select("SELECT description FROM tbl_standardization_setup WHERE setupID=" + str(setupID))[0][0], "(" + ", ".join(self.configuration.project.select("SELECT regressiontype, mode, ytype, clustertype, CAST(bins AS TEXT) FROM tbl_standardization_setup WHERE setupID=" + str(setupID))[0]) + ")"])
+                xlsx.write_line("MARISSA", ["timestamp", str(marissadata.creation)])
+                xlsx.write_line("MARISSA", "")
+                xlsx.write_line("MARISSA", ["CP", "CP value", "mean", "std", "", "single values"])
+                xlsx.write_line("MARISSA", ["Original", "", "{:.2f}".format(np.mean(marissadata.value_progression[0])), "{:.2f}".format(np.std(marissadata.value_progression[0])), ""] + np.round(marissadata.value_progression[0], 2).astype(str).tolist())
+                for i in range(len(marissadata.value_progression)-1):
+                    if len(marissadata.parameters) < len(marissadata.parameters_values):
+                        xlsx.write_line("MARISSA", [marissadata.parameters[i], [" & ".join([str(m) for m in marissadata.parameters_values])], "{:.2f}".format(np.mean(marissadata.value_progression[i+1])), "{:.2f}".format(np.std(marissadata.value_progression[i+1])), ""] + np.round(marissadata.value_progression[i+1], 2).astype(str).tolist())
+                    else:
+                        xlsx.write_line("MARISSA", [marissadata.parameters[i], marissadata.parameters_values[i], "{:.2f}".format(np.mean(marissadata.value_progression[i+1])), "{:.2f}".format(np.std(marissadata.value_progression[i+1])), ""] + np.round(marissadata.value_progression[i+1], 2).astype(str).tolist())
+                #xlsx.write_line("MARISSA", ["Standardized", "", "{:.2f}".format(np.mean(marissadata.value_progression[-1])), "{:.2f}".format(np.std(marissadata.value_progression[-1])), ""] + np.round(marissadata.value_progression[-1], 2).astype(str).tolist())
+                xlsx.save()
 
                 meanvalues.append([np.mean(marissadata.value_progression[j]) for j in range(len(marissadata.value_progression))])
 

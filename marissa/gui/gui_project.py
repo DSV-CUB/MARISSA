@@ -76,17 +76,19 @@ class GUI(creator_gui.Inheritance):
     def btn_icon_famd_clicked(self):
         selection = self.configuration.project.select("SELECT description FROM tbl_setup LIMIT 1")
         if len(selection) > 0:
-            global gui_run
-            gui_run = gui_project_famd.GUI(None, self.configuration)
-            gui_run.show()
-            self.close()
+            try:
+                global gui_run
+                gui_run = gui_project_famd.GUI(None, self.configuration)
+                gui_run.show()
+                self.close()
+            except:
+                self.show_dialog("FAMD analysis module could not be started, probably you need to install R and necessary packages (NbClust, FactoMineR, factoextra)", "Warning")
         else:
             self.show_dialog("There is no setup in this project. Please create a setup first.", "Warning")
         return
 
     def btn_icon_flow_marissa_clicked(self):
         pass
-
         return
 
     def btn_icon_db_plot_clicked(self):

@@ -87,73 +87,76 @@ class GUI(creator_gui.Inheritance):
         return
 
     def btn_famd_clicked(self):
-        data = [] # numpy array of parameter values
-        columnnames = [] # parameter names
+        try:
+            data = [] # numpy array of parameter values
+            columnnames = [] # parameter names
 
-        # prepare data
-        selected = np.unique([self.tbl_data.selectedIndexes()[i].row() for i in range(len(self.tbl_data.selectedIndexes()))]).astype(str).tolist()
-        SOPinstanceUIDs = []
-        for i in range(self.tbl_data.rowCount()):
-            if str(i) in selected:
-                SOPinstanceUIDs.append(self.tbl_data.item(i, 0).text())
+            # prepare data
+            selected = np.unique([self.tbl_data.selectedIndexes()[i].row() for i in range(len(self.tbl_data.selectedIndexes()))]).astype(str).tolist()
+            SOPinstanceUIDs = []
+            for i in range(self.tbl_data.rowCount()):
+                if str(i) in selected:
+                    SOPinstanceUIDs.append(self.tbl_data.item(i, 0).text())
 
-        if len(SOPinstanceUIDs) == 0:
-            self.show_dialog("No data selected.", "Critical")
-        else:
-            # prepare parameters
-            setupID = self.configuration.project.select("SELECT setupID FROM tbl_setup WHERE description = '" + self.opt_setup.currentText() + "'")[0][0]
+            if len(SOPinstanceUIDs) == 0:
+                self.show_dialog("No data selected.", "Critical")
+            else:
+                # prepare parameters
+                setupID = self.configuration.project.select("SELECT setupID FROM tbl_setup WHERE description = '" + self.opt_setup.currentText() + "'")[0][0]
 
-            parameters = self.configuration.project.select("SELECT p.parameterID, p.VR, p.VM, p.formula FROM tbl_parameter AS p INNER JOIN tbl_match_setup_parameter AS msp ON p.parameterID = msp.parameterID WHERE msp.setupID = " + str(setupID) + " ORDER BY msp.ordering ASC")
-            parametersID = np.concatenate([[parameters[i][0]] * parameters[i][2] for i in range(len(parameters))])
-            parametersVR = np.concatenate([[parameters[i][1]] * parameters[i][2] for i in range(len(parameters))])
-            parametersVM = np.concatenate([[parameters[i][2]] * parameters[i][2] for i in range(len(parameters))])
-            parametersVMindex = np.concatenate([np.arange(parameters[i][2]).tolist() for i in range(len(parameters))])
-            parametersFormula = np.concatenate([[parameters[i][3]] * parameters[i][2] for i in range(len(parameters))])
+                parameters = self.configuration.project.select("SELECT p.parameterID, p.VR, p.VM, p.formula FROM tbl_parameter AS p INNER JOIN tbl_match_setup_parameter AS msp ON p.parameterID = msp.parameterID WHERE msp.setupID = " + str(setupID) + " ORDER BY msp.ordering ASC")
+                parametersID = np.concatenate([[parameters[i][0]] * parameters[i][2] for i in range(len(parameters))])
+                parametersVR = np.concatenate([[parameters[i][1]] * parameters[i][2] for i in range(len(parameters))])
+                parametersVM = np.concatenate([[parameters[i][2]] * parameters[i][2] for i in range(len(parameters))])
+                parametersVMindex = np.concatenate([np.arange(parameters[i][2]).tolist() for i in range(len(parameters))])
+                parametersFormula = np.concatenate([[parameters[i][3]] * parameters[i][2] for i in range(len(parameters))])
 
-            parameters = np.transpose(np.vstack((parametersID, parametersVR, parametersVM, parametersVMindex, parametersFormula)))
+                parameters = np.transpose(np.vstack((parametersID, parametersVR, parametersVM, parametersVMindex, parametersFormula)))
 
-            for i in range(len(parameters)):
-                if parameters[i][2] == 1:
-                    columnnames.append(self.configuration.project.select("SELECT description FROM tbl_parameter WHERE parameterID = " + str(parameters[i][0]))[0][0])
+                for i in range(len(parameters)):
+                    if parameters[i][2] == 1:
+                        columnnames.append(self.configuration.project.select("SELECT description FROM tbl_parameter WHERE parameterID = " + str(parameters[i][0]))[0][0])
+                    else:
+                        columnnames.append(self.configuration.project.select("SELECT description FROM tbl_parameter WHERE parameterID = " + str(parameters[i][0]))[0][0] + "_" + str(parameters[i][3]))
+
+                path_out = self.get_directory(None)
+
+                if path_out is None or path_out == "":
+                    pass
                 else:
-                    columnnames.append(self.configuration.project.select("SELECT description FROM tbl_parameter WHERE parameterID = " + str(parameters[i][0]))[0][0] + "_" + str(parameters[i][3]))
+                    # read data parameters
+                    for i in range(len(SOPinstanceUIDs)):
+                        dcm = self.configuration.project.get_data(SOPinstanceUIDs[i])[0] # used in eval formula
+                        case = []
+                        skip = False
 
-            path_out = self.get_directory(None)
+                        for i in range(len(parametersFormula)):
+                            formula = parameters[i][4]
+                            try:
+                                x = eval(formula)
+                                if int(parameters[i][2]) > 1:
+                                    x = x[int(parameters[i][3])]
+                                x = tool_pydicom.get_value(x, parameters[i][1])
+                                case.append(x)
+                            except:
+                                skip = True
+                                break
 
-            if path_out is None or path_out == "":
-                pass
-            else:
-                # read data parameters
-                for i in range(len(SOPinstanceUIDs)):
-                    dcm = self.configuration.project.get_data(SOPinstanceUIDs[i])[0] # used in eval formula
-                    case = []
-                    skip = False
+                        if not skip:
+                            data.append(case)
 
-                    for i in range(len(parametersFormula)):
-                        formula = parameters[i][4]
-                        try:
-                            x = eval(formula)
-                            if int(parameters[i][2]) > 1:
-                                x = x[int(parameters[i][3])]
-                            x = tool_pydicom.get_value(x, parameters[i][1])
-                            case.append(x)
-                        except:
-                            skip = True
-                            break
-
-                    if not skip:
-                        data.append(case)
-
-            if len(data) == 0:
-                self.show_dialog("None of the data can be used as at least one parameter is missing or parameter formula has a bug.", "Critical")
-            else:
-                data = np.array(data, dtype=object)
-                #try:
-                famd = tool_R.Setup_FAMD()
-                famd.run(data, path_out, columnnames=columnnames)
-                self.show_dialog("FAMD analysis successfully performed. " + str(len(data)) + " of " + str(len(SOPinstanceUIDs)) + " datasets could be used.", "Information")
-                #except:
-                #    self.show_dialog("There is a problem with the R package connection. Please ensure to have R, the R packages FactoMineR and factoextra as well as all necessary Python site-packages installed.", "Critical")
+                if len(data) == 0:
+                    self.show_dialog("None of the data can be used as at least one parameter is missing or parameter formula has a bug.", "Critical")
+                else:
+                    data = np.array(data, dtype=object)
+                    #try:
+                    famd = tool_R.Setup_FAMD()
+                    famd.run(data, path_out, columnnames=columnnames)
+                    self.show_dialog("FAMD analysis successfully performed. " + str(len(data)) + " of " + str(len(SOPinstanceUIDs)) + " datasets could be used.", "Information")
+                    #except:
+                    #    self.show_dialog("There is a problem with the R package connection. Please ensure to have R, the R packages FactoMineR and factoextra as well as all necessary Python site-packages installed.", "Critical")
+        except:
+            self.show_dialog("FAMD analysis failed. Either the data is not suitable or the is a problem with R. Please check installation of R and the packages FactoMineR and factoextra.", "Warning")
         return
 
 

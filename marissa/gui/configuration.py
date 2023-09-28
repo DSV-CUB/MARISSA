@@ -107,10 +107,36 @@ class _ConfigDB(creator_sqlitedb.Inheritance):
     def __init__(self, path):
         super().__init__(path)
 
+        project_info = []
+        project_info.append(["subject", "Human"])
+        project_info.append(["subject", "Phantom"])
+        project_info.append(["organ", "Heart"])
+        project_info.append(["quantitative", "T1 Map"])
+        project_info.append(["quantitative", "T2 Map"])
+        project_info.append(["quantitative", "T2star Map"])
+
+        info_info = []
+        info_info.append(["author", "Darian Steven Viezzer"])
+        info_info.append(["version", "1.0"])
+        info_info.append(["contact", "Working group for cardiovascular MRI\nExperimental and Clinical Research Center\nECRC - a joint institution of the Charité and MDC\nCharité Campus Buch\nLindenberger Weg 80\n13125 Berlin\nGermany (Europe)\nEarth, Solar System, Milky Way\ndarian-steven.viezzer@charite.de\nhttps://cmr-berlin.org"])
+        info_info.append(["license", "MIT License\n\nCopyright (c) 2023 Darian Steven Viezzer, Charité Universitätsmedizin Berlin\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."])
+        info_info.append(["timestamp", "27.09.2023"])
+
         if not os.path.isfile(self.path):
             self.execute("CREATE TABLE IF NOT EXISTS tbl_info (ID TEXT, parameter TEXT);")
             self.execute("CREATE TABLE IF NOT EXISTS tbl_project (ID TEXT, parameter TEXT);")
 
-            self.execute("INSERT INTO tbl_project VALUES ('subject', 'Human'), ('subject', 'Phantom'), ('organ', 'Heart'), ('organ', 'Liver'), ('quantitative', 'T1 Map'), ('quantitative', 'T2 Map'), ('quantitative', 'T2star Map');")
-            self.execute("INSERT INTO tbl_info VALUES ('author', 'Darian Steven Viezzer'), ('version', '0.1'), ('contact', 'Working group for cardiovascular MRI\nExperimental and Clinical Research Center\nECRC - a joint institution of the Charité and MDC\nCharité Campus Buch\nLindenberger Weg 80\n13125 Berlin\nGermany (Europe)\nEarth, Solar System, Milky Way\ndarian-steven.viezzer@charite.de\nhttps://cmr-berlin.org'), ('timestamp', '" + datetime.datetime.now().strftime("%d.%m.%Y") + "');")
+            for pi in project_info:
+                self.execute("INSERT INTO tbl_project VALUES ('" + pi[0] +"', '" + pi[1] +"');")
+
+            for ii in info_info:
+                self.execute("INSERT INTO tbl_info VALUES ('" + ii[0] +"', '" + ii[1] +"');")
+        else:
+            for pi in project_info:
+                selection = self.select("SELECT 1 FROM tbl_project WHERE ID='" + pi[0] + "' AND parameter='" + pi[1] + "'")
+                if len(selection) == 0:
+                    self.execute("INSERT INTO tbl_project VALUES ('" + pi[0] +"', '" + pi[1] +"');")
+
+            for ii in info_info:
+                self.execute("UPDATE tbl_info SET parameter='" + ii[1] +"' WHERE ID ='" + ii[0] +"';")
         return
