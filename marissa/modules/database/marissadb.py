@@ -128,7 +128,7 @@ class Module(creator_sqlitedb.Inheritance):
             # *parameterID
             # *bin = bin number
             # *VMindex = index number if parameter has VM > 1
-            # *x = errorparameter value (only for symbolic type)
+            # *x = errorparameter value (only for symbolic type) --> list for ensemble mode necessary
             # reference = list of reference values [x, y] where x = parameter value and y = mean of values for that x
             # regressor = regression model as pickled object
             # rmse = root mean squared error
@@ -1007,7 +1007,7 @@ class Module(creator_sqlitedb.Inheritance):
         return marissadata
 
     def get_standardized_values(self, x, y, setupID, parameterID, bin, VMindex=None):
-        selection = self.select("SELECT  regressiontype, ytype, mode FROM tbl_standardization_setup WHERE setupID=" + str(setupID))
+        selection = self.select("SELECT regressiontype, ytype, mode FROM tbl_standardization_setup WHERE setupID=" + str(setupID))
         rt = selection[0][0]
         ytype = selection[0][1]
         mode = selection[0][2]
@@ -1056,6 +1056,22 @@ class Module(creator_sqlitedb.Inheritance):
                 rm = eval("regression.Model(ytype=ytype, load=regressor)")
                 new_values = rm.apply(x_in, y)
         return new_values
+
+    def standardization_exist(self):
+        selection = self.select("SELECT description FROM tbl_standardization_setup LIMIT 1")
+        if len(selection) == 0:
+            result = False
+        else:
+            result = True
+        return result
+
+    def setup_exist(self):
+        selection = self.select("SELECT description FROM tbl_setup LIMIT 1")
+        if len(selection) == 0:
+            result = False
+        else:
+            result = True
+        return result
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ import os
 from PyQt5 import QtWidgets
 
 from marissa.toolbox.creators import creator_gui
-from marissa.gui import dialog_info, gui_start, gui_project_data, gui_project_setup, gui_project_train, gui_project_standardize, gui_project_famd
+from marissa.gui import dialog_info, gui_start, gui_project_data, gui_project_setup, gui_project_train, gui_project_standardize, gui_project_famd, gui_project_plot
 
 class GUI(creator_gui.Inheritance):
 
@@ -12,9 +12,9 @@ class GUI(creator_gui.Inheritance):
 
         self.setWindowTitle("MARISSA - Project : " + self.configuration.project.select("SELECT parameter FROM tbl_info WHERE ID = 'name'")[0][0])
 
-        self.btn_icon_db_plot.clicked.connect(self.btn_icon_db_plot_clicked)
-        self.btn_icon_famd.clicked.connect(self.btn_icon_famd_clicked)
-        self.btn_icon_flow_marissa.clicked.connect(self.btn_icon_flow_marissa_clicked)
+        self.btn_icon_database_light.clicked.connect(self.btn_icon_database_light_clicked)
+        self.btn_icon_famd_light.clicked.connect(self.btn_icon_famd_light_clicked)
+        self.btn_icon_flow_light.clicked.connect(self.btn_icon_flow_light_clicked)
         self.btn_icon_logo_info.clicked.connect(self.btn_icon_logo_info_clicked)
 
         self.btn_setup.clicked.connect(self.btn_setup_clicked)
@@ -51,8 +51,7 @@ class GUI(creator_gui.Inheritance):
         return
 
     def btn_train_clicked(self):
-        selection = self.configuration.project.select("SELECT description FROM tbl_setup LIMIT 1")
-        if len(selection) > 0:
+        if self.configuration.project.setup_exist():
             global gui_run
             gui_run = gui_project_train.GUI(None, self.configuration)
             gui_run.show()
@@ -62,8 +61,7 @@ class GUI(creator_gui.Inheritance):
         return
 
     def btn_standardize_clicked(self):
-        selection = self.configuration.project.select("SELECT setupID FROM tbl_standardization_setup LIMIT 1")
-        if len(selection) > 0:
+        if self.configuration.project.standardization_exist():
             global gui_run
             gui_run = gui_project_standardize.GUI(None, self.configuration)
             gui_run.show()
@@ -73,9 +71,8 @@ class GUI(creator_gui.Inheritance):
 
         return
 
-    def btn_icon_famd_clicked(self):
-        selection = self.configuration.project.select("SELECT description FROM tbl_setup LIMIT 1")
-        if len(selection) > 0:
+    def btn_icon_famd_light_clicked(self):
+        if self.configuration.project.setup_exist():
             try:
                 global gui_run
                 gui_run = gui_project_famd.GUI(None, self.configuration)
@@ -87,11 +84,17 @@ class GUI(creator_gui.Inheritance):
             self.show_dialog("There is no setup in this project. Please create a setup first.", "Warning")
         return
 
-    def btn_icon_flow_marissa_clicked(self):
-        pass
+    def btn_icon_flow_light_clicked(self):
+        if self.configuration.project.standardization_exist():
+            global gui_run
+            gui_run = gui_project_plot.GUI(None, self.configuration)
+            gui_run.show()
+            self.close()
+        else:
+            self.show_dialog("There is no trained standardization in this project. Please train for a setup first.", "Warning")
         return
 
-    def btn_icon_db_plot_clicked(self):
+    def btn_icon_database_light_clicked(self):
         path_to = self.get_directory(None)
         if not path_to is None and not path_to == "":
             worked = self.configuration.project.plot_database_structure(path_to, "dbstructure_" + self.configuration.project.select("SELECT parameter FROM tbl_info WHERE ID = 'name'")[0][0])

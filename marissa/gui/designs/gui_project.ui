@@ -310,7 +310,10 @@ font-weight: bold;
      <string>Standardize</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_icon_db_plot">
+   <widget class="QPushButton" name="btn_icon_database_light">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -327,29 +330,13 @@ font-weight: bold;
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton
-{
-background-color: rgb(255, 255, 255);
-border: 0px;
-}
-
-QPushButton::pressed
-{
-background-color: rgb(255, 255, 255);
-border: 0px;
-}
-
-QPushButton::hover
-{
-background-color:  rgb(48, 48, 48);
-border: 0px;
-}</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_icon_flow_marissa">
+   <widget class="QPushButton" name="btn_icon_flow_light">
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -366,22 +353,13 @@ border: 0px;
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton
-{
-background-color: rgb(255, 255, 255);
-border: 0px;
-}
-QPushButton::hover
-{
-background-color: rgb(0, 170, 0);
-border: 0px;
-}</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_icon_famd">
+   <widget class="QPushButton" name="btn_icon_famd_light">
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -398,23 +376,7 @@ border: 0px;
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton
-{
-background-color: rgb(255, 255, 255);
-border: 0px;
-}
-
-QPushButton::pressed
-{
-background-color: rgb(255, 255, 255);
-border: 0px;
-}
-
-QPushButton::hover
-{
-background-color:  rgb(255, 179, 0);
-border: 0px;
-}</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string/>
@@ -428,9 +390,9 @@ border: 0px;
    <zorder>lbl_icon_marissa_show</zorder>
    <zorder>btn_train</zorder>
    <zorder>btn_standardize</zorder>
-   <zorder>btn_icon_db_plot</zorder>
-   <zorder>btn_icon_flow_marissa</zorder>
-   <zorder>btn_icon_famd</zorder>
+   <zorder>btn_icon_database_light</zorder>
+   <zorder>btn_icon_flow_light</zorder>
+   <zorder>btn_icon_famd_light</zorder>
   </widget>
  </widget>
  <resources/>

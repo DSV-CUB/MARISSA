@@ -9,33 +9,43 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import matplotlib
+import numpy as np
 matplotlib.use('QT5Agg')
 
 from marissa.gui import configuration
 
 
-# Matplotlib canvas class to create figure
-class MplCanvas(FigureCanvas):
-    def __init__(self):
-        self.fig = Figure()
-        self.ax = self.fig.add_subplot(111)
-        FigureCanvas.__init__(self, self.fig)
-        FigureCanvas.setSizePolicy(self, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        FigureCanvas.updateGeometry(self)
-
 # Matplotlib widget
 class QWidgetMatplotlib(QtWidgets.QWidget):
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)   # Inherit from QWidget
-        self.canvas = MplCanvas()                  # Create canvas object
+
+        self.figure = Figure()
+        self.canvas = FigureCanvas(self.figure)                  # Create canvas object
         self.toolbar = NavigationToolbar(self.canvas, self)
         self.vbl = QtWidgets.QVBoxLayout()         # Set box for plotting
         self.vbl.addWidget(self.toolbar)
         self.vbl.addWidget(self.canvas)
         self.setLayout(self.vbl)
-
+        self.ax = None
+        self.done = False
         stsh = """border-color: rgb(238, 238, 238); border-width : 2px; border-style:solid;"""
         self.setStyleSheet(stsh)
+        return
+
+    def new_plot(self, subplots=111):
+        self.figure.clf()
+        self.ax = self.figure.add_subplot(subplots)
+        return self.ax
+
+    def draw(self):
+        if not self.done:
+            px = 1/self.figure.dpi
+            self.figure.set_size_inches(self.sizeHint().width()*px, self.sizeHint().height()*px)
+            self.done = True
+        self.figure.tight_layout()
+        self.canvas.draw()
+        return
 
 
 class Inheritance(QtWidgets.QMainWindow):
@@ -121,8 +131,13 @@ class Inheritance(QtWidgets.QMainWindow):
         for parent_widget in self.ui.centralwidget.children():
             for icon in icons:
                 if parent_widget.objectName().startswith("btn_icon_" + icon):
-                    parent_widget.setIcon(QtGui.QIcon(self.configuration.path_icons[icon]))
-                    parent_widget.setIconSize(parent_widget.size())
+                    if icon.endswith("_light") and icon.replace("_light", "_dark") in icons:
+                        lightpath = self.configuration.path_icons[icon].replace("\\", "/")
+                        darkpath = self.configuration.path_icons[icon.replace("_light", "_dark")].replace("\\", "/")
+                        parent_widget.setStyleSheet("QPushButton\n{\nbackground-color: rgb(255, 255, 255);\nborder: 0px;\nborder-image: url(" + lightpath + ");\nbackground-repeat: no-repeat;\n}\n\nQPushButton::pressed\n{\nbackground-color: rgb(255, 255, 255);\nborder: 0px;\nborder-image: url(" + lightpath +");\nbackground-repeat: no-repeat;\n}\n\nQPushButton::hover\n{\nbackground-color: rgb(255, 255, 255);\nborder: 0px;\nborder-image: url(" + darkpath + ");\nbackground-repeat: no-repeat;\n}")
+                    else:
+                        parent_widget.setIcon(QtGui.QIcon(self.configuration.path_icons[icon]))
+                        parent_widget.setIconSize(parent_widget.size())
                     break
                 elif parent_widget.objectName().startswith("lbl_icon_" + icon):
                     parent_widget.setPixmap(QtGui.QIcon(self.configuration.path_icons[icon]).pixmap(parent_widget.size()))
@@ -134,9 +149,14 @@ class Inheritance(QtWidgets.QMainWindow):
                             for sub_child_widget in child_widget.children():
                                 for icon in icons:
                                     if sub_child_widget.objectName().startswith("btn_icon_" + icon):
-                                        sub_child_widget.setIcon(QtGui.QIcon(self.configuration.path_icons[icon]))
-                                        sub_child_widget.setIconSize(sub_child_widget.size())
-                                        break
+                                        if icon.endswith("_light") and icon.replace("_light", "_dark") in icons:
+                                            lightpath = self.configuration.path_icons[icon].replace("\\", "/")
+                                            darkpath = self.configuration.path_icons[icon.replace("_light", "_dark")].replace("\\", "/")
+                                            sub_child_widget.setStyleSheet("QPushButton\n{\nbackground-color: rgb(255, 255, 255);\nborder: 0px;\nborder-image: url(" + lightpath + ");\nbackground-repeat: no-repeat;\n}\n\nQPushButton::pressed\n{\nbackground-color: rgb(255, 255, 255);\nborder: 0px;\nborder-image: url(" + lightpath +");\nbackground-repeat: no-repeat;\n}\n\nQPushButton::hover\n{\nbackground-color: rgb(255, 255, 255);\nborder: 0px;\nborder-image: url(" + darkpath + ");\nbackground-repeat: no-repeat;\n}")
+                                        else:
+                                            sub_child_widget.setIcon(QtGui.QIcon(self.configuration.path_icons[icon]))
+                                            sub_child_widget.setIconSize(sub_child_widget.size())
+                                            break
                                     elif sub_child_widget.objectName().startswith("lbl_icon_" + icon):
                                         sub_child_widget.setPixmap(QtGui.QIcon(self.configuration.path_icons[icon]).pixmap(sub_child_widget.size()))
                                         break

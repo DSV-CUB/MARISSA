@@ -10,7 +10,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # SETUP
-project_path = r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\4 - Tools\marissa\appdata\projects\SCMR_Abstract.marissadb"
+project_path = r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\4 - Tools\marissa\appdata\projects\DoktorarbeitDSV - Copy.marissadb"
 path_out = r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\6 - Analysis\TRAINING_FINAL_SCMR"
 #parameters = ["PatientsAge", "PatientsSex", "BMIgroup3", "System", "T1Sequence"]
 #reference = ["18Y", "M", 0, "SIEMENS#Verio#syngo MR B17", "MOLLI"]

@@ -18,6 +18,7 @@ class GUI(creator_dialog.Inheritance):
 
         self.lbl_Info.setPlainText(str_Info)
         self.lbl_Info.mousePressEvent = self.lbl_Info_clicked
+        self.lbl_icon_marissa_show.mousePressEvent = self.lbl_icon_marissa_show_clicked
         return
 
     def closeEvent(self, event):
@@ -25,14 +26,25 @@ class GUI(creator_dialog.Inheritance):
         return
 
     def lbl_Info_clicked(self, event):
-        start = self.lbl_Info.toPlainText().find("http")
-        if start >= 0:
-            end = self.lbl_Info.toPlainText().find("\n", start)
-            if end > 0:
-                url = self.lbl_Info.toPlainText()[start:end+1]
-            else:
-                url = self.lbl_Info.toPlainText()[start:]
+        try:
+            start = self.lbl_Info.toPlainText().find("http")
+            if start >= 0:
+                end = self.lbl_Info.toPlainText().find("\n", start)
+                if end > 0:
+                    url = self.lbl_Info.toPlainText()[start:end+1]
+                else:
+                    url = self.lbl_Info.toPlainText()[start:]
+                webbrowser.open_new_tab(url)
+        except:
+            pass
+        return
+
+    def lbl_icon_marissa_show_clicked(self, event):
+        try:
+            url = self.configuration.database.select("SELECT parameter FROM tbl_info WHERE ID='projectpage'")[0][0]
             webbrowser.open_new_tab(url)
+        except:
+            pass
         return
 
 
