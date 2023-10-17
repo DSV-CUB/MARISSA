@@ -66,7 +66,7 @@ for i in range(len(selection)):
 info_data_patient_amy = np.array(info_data_patient_amy)
 
 # load training
-file_s2 = os.path.join(r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\6 - Analysis\BruteForceTraining", "train_step2_top3_binning.txt")
+file_s2 = os.path.join(r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\6 - Analysis\TRAINING_FINAL_BACKUP", "train_step2_top3_binning.txt")
 file = open(file_s2, "r")
 readdata = file.readlines()
 file.close()
@@ -76,7 +76,8 @@ index_top = np.argsort(evalS2)[0] # lowest CoV is best
 best_setup = setup_info[index_top]
 
 setupID = project.select("SELECT setupID FROM tbl_setup WHERE description = '" + best_setup[0] + "'")[0][0]
-setupID = project.select("SELECT setupID FROM tbl_setup WHERE bins=4 AND clustertype='kmeans' AND regressiontype='linear'")[0][0]
+#setupID = project.select("SELECT setupID FROM tbl_setup WHERE bins=4 AND clustertype='kmeans' AND regressiontype='linear'")[0][0]
+setupID = project.select("SELECT setupID FROM tbl_setup WHERE bins=2 AND clustertype='aglomerative_single' AND regressiontype='linearsvr'")[0][0]
 
 ########################################################################################################################
 # MR AND MASK IMAGE ####################################################################################################
@@ -155,37 +156,38 @@ plt.savefig(os.path.join(path_out, "input_histogram.jpg"), dpi=300)
 fig, ax = plt.subplots(1,1, figsize=(10, 10))
 for i in range(np.max(cl)+1):
     binvalues = md.value_progression[0][cl == int(i)]
-    ax.hist(binvalues, bins=bins, facecolor="#660066" + str(int(88 - 44 * (i / np.max(cl)))), label="original bin " + str(i+1))
+    ax.hist(binvalues, bins=bins, facecolor="#0000ff" + str(int(88 - 44 * (i / np.max(cl)))), label="original bin " + str(i+1))
     binvalues = md.value_progression[-1][cl == int(i)]
     ax.hist(binvalues, bins=bins, facecolor="#008800" + str(int(88 - 44 * (i / np.max(cl)))), label="standardized bin " + str(i+1))
-ax.axvline(np.mean(md.value_progression[0]), c="#660066", ls="--", lw=2, label="original mean")
-ax.axvline(np.mean(md.value_progression[1]), c="#008800", ls="--", lw=2, label="standardized mean")
+ax.axvline(np.mean(md.value_progression[0]), c="#0000ff", ls="--", lw=2, label="original mean")
+ax.axvline(np.mean(md.value_progression[-1]), c="#008800", ls="--", lw=2, label="standardized mean")
 
-diff = (np.mean(md.value_progression[1]) - np.mean(md.value_progression[0]))
+diff = (np.mean(md.value_progression[-1]) - np.mean(md.value_progression[0]))
 start = np.mean(md.value_progression[0]) + 0.1*diff
-end = np.mean(md.value_progression[1]) - 0.1*diff
+end = np.mean(md.value_progression[-1]) - 0.1*diff
 diff = 0.7*diff
 
-if np.mean(md.value_progression[1]) - np.mean(md.value_progression[0]) > 0:
-    ax.arrow(start, 0.75*np.max(ax.get_ylim()), diff, 0, color="#008800", head_width=0.02*np.max(ax.get_ylim()), head_length=0.1/0.7*diff, lw=2)
+if np.mean(md.value_progression[-1]) - np.mean(md.value_progression[0]) > 0:
+    ax.arrow(start, 0.9*np.max(ax.get_ylim()), diff, 0, color="#008800", head_width=0.02*np.max(ax.get_ylim()), head_length=0.1/0.7*diff, lw=2)
 else:
-    ax.arrow(start, 0.75*np.max(ax.get_ylim()), diff, 0, color="#008800", head_width=0.02*np.max(ax.get_ylim()), head_length=-0.1/0.7*diff, lw=2)
+    ax.arrow(start, 0.9*np.max(ax.get_ylim()), diff, 0, color="#008800", head_width=0.02*np.max(ax.get_ylim()), head_length=-0.1/0.7*diff, lw=2)
 
 from matplotlib.colors import ListedColormap
 num88 = tool_plot.convert_hex_to_int("88")[0]
-num66 = tool_plot.convert_hex_to_int("66")[0]
+num66 = tool_plot.convert_hex_to_int("ff")[0]
 new_cm = []
 for i in range(256):
-    new_cm.append([(num66 - (i /255 * num66))/256, (num88 * (i /255))/256, (num66 - (i /255 * num66))/256, 1])
+    new_cm.append([0, (num88 * (i /255))/256, (num66 - (i /255 * num66))/256, 1])
 new_cm = ListedColormap(new_cm)
 
 diff = 0.6/0.7 * diff
 for i in range(256):
-    plt.plot([start+(i*diff/256), start+((i+1)*diff/256)], [0.75*np.max(ax.get_ylim()), 0.75*np.max(ax.get_ylim())], c=new_cm(i/256), lw=2)
+    plt.plot([start+(i*diff/256), start+((i+1)*diff/256)], [0.9*np.max(ax.get_ylim()), 0.9*np.max(ax.get_ylim())], c=new_cm(i/256), lw=2)
 
-ax.legend()
-ax.set_ylabel("T1 value frequency")
-ax.set_xlabel("T1 [ms]")
+ax.legend(fontsize=16, loc="upper left")
+ax.set_ylabel("T1 value frequency", fontsize=14)
+ax.set_xlabel("T1 [ms]", fontsize=14)
+ax.tick_params(axis='both', which='major', labelsize=12)
 plt.tight_layout()
 plt.savefig(os.path.join(path_out, "output_histogram.jpg"), dpi=300)
 
@@ -253,3 +255,4 @@ a = 0
 ########################################################################################################################
 # OUTPUT HIST ##########################################################################################################
 ########################################################################################################################
+# see above

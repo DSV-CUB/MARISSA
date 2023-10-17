@@ -467,49 +467,6 @@ border-style:solid;</string>
      <enum>QAbstractItemView::SelectRows</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_icon_delete_standardize">
-    <property name="geometry">
-     <rect>
-      <x>840</x>
-      <y>630</y>
-      <width>200</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Arial Nova</family>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton
-{
-color:rgb(255, 0, 0);
-background-color: rgb(255, 220, 220);
-border: 0px;
-}
-
-QPushButton::pressed
-{
-color:rgb(255, 0, 0);
-background-color: rgb(255, 220, 220);
-border: 0px;
-}
-
-QPushButton::hover
-{
-color:rgb(255, 220, 220);
-background-color: rgb(255, 0, 0);
-border: 0px;
-font-weight: bold;
-}</string>
-    </property>
-    <property name="text">
-     <string>delete</string>
-    </property>
-   </widget>
    <zorder>label_6</zorder>
    <zorder>btn_icon_new_standardize</zorder>
    <zorder>opt_segmentation</zorder>
@@ -529,7 +486,6 @@ font-weight: bold;
    <zorder>lbl_hide_external</zorder>
    <zorder>tbl_data</zorder>
    <zorder>lbl_hide_internal</zorder>
-   <zorder>btn_icon_delete_standardize</zorder>
   </widget>
  </widget>
  <resources/>

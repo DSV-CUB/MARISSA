@@ -88,7 +88,7 @@ font-weight: bold;
 }</string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_setup">
      <attribute name="title">
@@ -204,7 +204,7 @@ font-weight: bold;
       <property name="geometry">
        <rect>
         <x>1040</x>
-        <y>450</y>
+        <y>410</y>
         <width>200</width>
         <height>20</height>
        </rect>
@@ -226,7 +226,7 @@ border: 0px;</string>
       <property name="geometry">
        <rect>
         <x>1040</x>
-        <y>540</y>
+        <y>480</y>
         <width>200</width>
         <height>20</height>
        </rect>
@@ -270,7 +270,7 @@ font-weight: bold;
       <property name="geometry">
        <rect>
         <x>1040</x>
-        <y>510</y>
+        <y>450</y>
         <width>200</width>
         <height>20</height>
        </rect>
@@ -308,6 +308,49 @@ font-weight: bold;
       </property>
       <property name="text">
        <string>other project</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_icon_delete_standardize">
+      <property name="geometry">
+       <rect>
+        <x>1040</x>
+        <y>530</y>
+        <width>200</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial Nova</family>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton
+{
+color:rgb(255, 0, 0);
+background-color: rgb(255, 220, 220);
+border: 0px;
+}
+
+QPushButton::pressed
+{
+color:rgb(255, 0, 0);
+background-color: rgb(255, 220, 220);
+border: 0px;
+}
+
+QPushButton::hover
+{
+color:rgb(255, 220, 220);
+background-color: rgb(255, 0, 0);
+border: 0px;
+font-weight: bold;
+}</string>
+      </property>
+      <property name="text">
+       <string>delete</string>
       </property>
      </widget>
     </widget>

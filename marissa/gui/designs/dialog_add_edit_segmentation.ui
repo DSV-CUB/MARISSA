@@ -653,11 +653,6 @@ border-style:solid;</string>
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_caseg">
-    <attribute name="title">
-     <string>CASEG</string>
-    </attribute>
-   </widget>
   </widget>
  </widget>
  <resources/>

@@ -171,20 +171,28 @@ class GUI(creator_gui.Inheritance):
             reference_y = np.mean(segmentedvalues[reference_indeces])
 
             if ytype == "absolute":
-                dyo = segmentedvalues = segmentedvalues - reference_y
-                dys = standardizedvalues = standardizedvalues - reference_y
+                dyo = segmentedvalues - reference_y
+                dys = standardizedvalues - reference_y
             else: # relative
                 dyo = 100 * (segmentedvalues - reference_y) / reference_y
                 dys = 100 * (standardizedvalues - reference_y) / reference_y
 
-            ax.scatter([0] * len(dyo), dyo, s=2, c="blue")
-            ax.scatter([1] * len(dys), dys, s=2, c="blue")
-            ax.plot([0, 1], [np.mean(dyo), np.mean(dys)], c="red", label="regression")
-            ax.axhline(0, c="green", ls="--", label="reference")
-            ax.set_xticks([0, 1], labels=["original", "after training"])
-            ax.set_title("All confounding parameters at bin " + str(bin) + "\n" + regressiontype + " regression on " + ytype + " error with " + clustertype + " clustering for " + str(bins) + " bins in " + mode + " mode")
+            import seaborn
+            import pandas
 
-            #rm.regression.feature_importances
+            df = pandas.DataFrame(np.transpose(np.array([np.array([0] * len(dyo)), dyo]))[:1000,:], columns=["x", "y"])
+
+            #seaborn.violinplot(df["y"], ax=ax)
+            seaborn.swarmplot(df, y="y", ax=ax, color="blue")
+
+            ax.scatter([0] , [0], c="green", label="reference", zorder=10, marker="x")
+            ax.axhline(0, c="green", ls="--")
+            ax.axvline(0, c="green", ls="--")
+
+            if bins > 1:
+                ax.set_title("All confounding parameters at bin " + str(bin) + " on " + str(len(selection_data)) + " datasets with " + str(len(segmentedvalues)) + " datapoints\n" + regressiontype + " regression on " + ytype + " error with " + clustertype + " clustering for " + str(bins) + " bins in " + mode + " mode")
+            else:
+                ax.set_title("All confounding parameters on " + str(len(selection_data)) + " datasets with " + str(len(segmentedvalues)) + " datapoints\n" + regressiontype + " regression on " + ytype + " error with " + clustertype + " clustering for " + str(bins) + " bins in " + mode + " mode")
 
         else:
             if tool_pydicom.get_VR_type(VR) == str:
@@ -213,7 +221,7 @@ class GUI(creator_gui.Inheritance):
                 ax.scatter(dx_regression, dy_regression, c="red")
                 ax.axhline(0, c="green", ls="--")
                 ax.axvline(0, c="green", ls="--")
-                ax.scatter(0, 0, c="green", label="reference")
+                ax.scatter(0, 0, c="green", label="reference", marker="x")
                 ax.set_xticks([0, 1], labels=[reference + "\n(reference)", x])
             else:
                 index_reference = np.argwhere(np.array(parametervalues).astype(float) == float(reference)).flatten()
@@ -236,13 +244,13 @@ class GUI(creator_gui.Inheritance):
                 ax.plot(dx_regression, dy_regression, c="red", label="regression")
                 ax.axhline(0, c="green", ls="--")
                 ax.axvline(float(reference), c="green", ls="--")
-                ax.scatter(float(reference), 0, c="green", label="reference")
+                ax.scatter(float(reference), 0, c="green", label="reference", marker="x")
 
             # general
             if bins > 1:
-                ax.set_title(parameter_description + " at bin " + str(bin) + " for VMindex " + str(VMindex) + "\n" + regressiontype + " regression on " + ytype + " error with " + clustertype + " clustering for " + str(bins) + " bins in " + mode + " mode")
+                ax.set_title(parameter_description + " at bin " + str(bin) + " for VMindex " + str(VMindex) + " on " + str(len(selection_data)) + " datasets with " + str(len(segmentedvalues)) + " datapoints\n" + regressiontype + " regression on " + ytype + " error with " + clustertype + " clustering for " + str(bins) + " bins in " + mode + " mode")
             else:
-                ax.set_title(parameter_description + " for VMindex " + str(VMindex) + "\n" + regressiontype + " regression on " + ytype + " error in " + mode + " mode")
+                ax.set_title(parameter_description + " for VMindex " + str(VMindex) + " on " + str(len(selection_data)) + " datasets with " + str(len(segmentedvalues)) + " datapoints\n" + regressiontype + " regression on " + ytype + " error in " + mode + " mode")
 
             ax.set_xlabel(parameter_description)
 

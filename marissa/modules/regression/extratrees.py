@@ -48,6 +48,9 @@ class Model:
             result = y / (1 + dy/100)
         return result
 
+    def feature_weights(self):
+        return self.regression.feature_importances_
+
 if __name__ == "__main__":
     mod = Model()
 

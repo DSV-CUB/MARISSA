@@ -20,6 +20,7 @@ class GUI(creator_gui.Inheritance):
         self.btn_icon_new_setup_previous.clicked.connect(self.btn_icon_new_setup_previous_clicked)
         self.btn_import_project.clicked.connect(self.btn_import_project_clicked)
         self.btn_import_external.clicked.connect(self.btn_import_external_clicked)
+        self.btn_icon_delete_standardize.clicked.connect(self.btn_icon_delete_standardize_clicked)
 
         # tab data
         columns = ["SOPInstanceUID", "StudyinstanceUID", "seriesnumber", "instancenumber", "seriesdescription", "identifier", "age", "gender", "size", "weight", "description", "acquisitiondatetime", "timestamp"]
@@ -273,7 +274,7 @@ class GUI(creator_gui.Inheritance):
         try:
             standardization_ext = project_ext.select("SELECT setupID, description FROM tbl_standardization_setup")
         except:
-            self.show_dialog("The extern project has not the expected format or is corrupted. his does not work, sorry :(", " Critical")
+            self.show_dialog("The extern project has not the expected format or is corrupted. This does not work, sorry :(", " Critical")
             return
 
         if len(standardization_ext) == 0:
@@ -284,21 +285,42 @@ class GUI(creator_gui.Inheritance):
 
             dialog = dialog_list_choice.GUI(self, description="Choose standardization to import", list=standardization_descriptions, listchoice="single")
             if dialog.exec():
-                import_setup_ID = standardization_IDs[standardization_descriptions.index(dialog.result[0])]
+                try:
+                    import_setup_ID = standardization_IDs[standardization_descriptions.index(dialog.result[0])]
 
-                selection = self.configuration.project.select("SELECT 1 FROM tbl_standardization_setup WHERE setupID = " + str(import_setup_ID))
+                    selection = self.configuration.project.select("SELECT 1 FROM tbl_standardization_setup WHERE setupID = " + str(import_setup_ID))
 
-                if len(selection) > 0:
-                    answer = self.show_dialog("The chosen setup already exists. Do you want to overwrite the existing training?", "Question")
+                    if len(selection) > 0:
+                        answer = self.show_dialog("The chosen setup already exists. Do you want to overwrite the existing training?", "Question")
 
-                    if answer == QtWidgets.QMessageBox.Yes:
-                        self.configuration.project.delete_standardization(import_setup_ID)
-                    else:
-                        return
+                        if answer == QtWidgets.QMessageBox.Yes:
+                            self.configuration.project.delete_standardization(import_setup_ID)
+                        else:
+                            return
 
-                self.configuration.project.import_standardization(path_ext, import_setup_ID)
-                self.update_setup()
-                self.show_dialog("The import of the trained setup " + dialog.result[0] + " was successfull", "Information")
+                    self.configuration.project.import_standardization(path_ext, import_setup_ID)
+                    self.update_setup()
+                    self.show_dialog("The import of the trained setup " + dialog.result[0] + " was successfull", "Information")
+                except:
+                    self.show_dialog("No standardization was imported.", "Critical")
+        return
+
+    def btn_icon_delete_standardize_clicked(self):
+        setup = self.opt_setup.currentText()
+        answer = self.show_dialog("Are you sure to delete the training of " + setup + "?", "Question")
+        if answer == QtWidgets.QMessageBox.Yes:
+            setupID = self.configuration.project.select("SELECT setupID FROM tbl_standardization_setup WHERE description = '" + setup + "'")[0][0]
+            self.configuration.project.delete_standardization(setupID)
+            self.show_dialog("The training of " + setup + " was successfully deleted.", "Information")
+
+            self.opt_setup.clear()
+            selection = self.configuration.project.select("SELECT DISTINCT description FROM tbl_setup ORDER BY description")
+            if len(selection) > 0:
+                setups = [selection[i][0] for i in range(len(selection))]
+                self.opt_setup.addItems(setups)
+            else:
+                self.show_dialog("There is no standardization pipeline left that could be trained. Please define a standardization pipeline.", "Information")
+                self.close()
         return
 
     # tab data

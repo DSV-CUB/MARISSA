@@ -48,6 +48,10 @@ class Model:
             result = y / (1 + dy/100)
         return result
 
+    def feature_weights(self):
+        return self.regression.coef_ / np.sum(self.regression.coef_)
+
+
 if __name__ == "__main__":
     mod = Model()
 

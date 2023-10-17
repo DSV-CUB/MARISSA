@@ -29,7 +29,6 @@ class GUI(creator_gui.Inheritance):
         self.btn_data_sql.clicked.connect(self.btn_data_sql_clicked)
 
         self.btn_icon_new_standardize.clicked.connect(self.btn_icon_new_standardize_clicked)
-        self.btn_icon_delete_standardize.clicked.connect(self.btn_icon_delete_standardize_clicked)
 
         # FILL
         selection = self.configuration.project.select("SELECT DISTINCT description, creator FROM tbl_segmentation ORDER BY description")
@@ -266,24 +265,6 @@ class GUI(creator_gui.Inheritance):
             plt.savefig(os.path.join(path_out, "standardization_progress.jpg"), dpi=300)
 
             self.show_dialog("Standardization successfully done. :)", "Information")
-        return
-
-    def btn_icon_delete_standardize_clicked(self):
-        setup = self.opt_setup.currentText()
-        answer = self.show_dialog("Are you sure to delete the training of " + setup + "?", "Question")
-        if answer == QtWidgets.QMessageBox.Yes:
-            setupID = self.configuration.project.select("SELECT setupID FROM tbl_standardization_setup WHERE description = '" + setup + "'")[0][0]
-            self.configuration.project.delete_standardization(setupID)
-            self.show_dialog("The training of " + setup + " was successfully deleted.", "Information")
-
-            self.opt_setup.clear()
-            selection = self.configuration.project.select("SELECT DISTINCT ss.description FROM tbl_standardization_setup AS ss INNER JOIN tbl_standardization AS s ON ss.setupID = s.setupID ORDER BY description")
-            if len(selection) == 0:
-                self.show_dialog("There is no trained setup left. Please re-train a setup to proceed.", "Critical")
-                self.close()
-            else:
-                standardized_setups = [selection[i][0] for i in range(len(selection))]
-                self.opt_setup.addItems(standardized_setups)
         return
 
 if __name__ == "__main__":
