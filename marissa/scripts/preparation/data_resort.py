@@ -2,7 +2,6 @@ import numpy as np
 import os
 import shutil
 from marissa.modules.database import marissadb
-from marissa.modules.pesf import pesf
 from marissa.toolbox.tools import tool_general, tool_R
 
 if False:

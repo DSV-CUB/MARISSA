@@ -9,7 +9,7 @@ as a first proof-of-concept on native, midventricular parametric T1 maps in card
 other quantification methods, such as parametric T2 mapping, or tissues, i.e. the liver, is not limited, but yet not tested.
 
 ## Usage
-After installation according to the user manual, the MARISSA_start.bat or MARISSA_start.sh can be used to start the program (tested on Windows 11 only)
+After installation according to the user manual, the MARISSA_start.bat can be used to start the program (tested on Windows 11 only)
 
 ## Scripts
 In the publication, the training and plots were performed with scripts that can be found in marissa\scripts.

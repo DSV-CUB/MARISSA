@@ -1,5 +1,6 @@
 from marissa.modules.database import marissadb
 from marissa.toolbox.tools import tool_statistics, tool_pydicom, tool_plot
+from marissa.scripts.plots import basic_functions
 from marissa.modules.regression import linear
 import numpy as np
 import os
@@ -10,7 +11,10 @@ from scipy import stats
 import warnings
 warnings.filterwarnings('ignore')
 
-# SETUP
+########################################################################################################################
+# USER INPUT ###########################################################################################################
+########################################################################################################################
+
 project_path = r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\4 - Tools\marissa\appdata\projects\DoktorarbeitDSV.marissadb"
 path_out = r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\1 - Project Documents\Pipeline"
 
@@ -21,63 +25,20 @@ reference_str = ["18.0", "M", "SIEMENS#Verio#syngo MR B17", "MOLLI"]
 
 colours = ["#008000", "#ff8000", "#ff0000"]
 cohorts = ["Healthy", "HCM", "Amyloidosis"]
-# PREPARATION
+
+
+########################################################################################################################
+# PREPARATION ##########################################################################################################
+########################################################################################################################
+
 project = marissadb.Module(project_path)
+setupID = basic_functions.get_BPSP_setupID(project, path_training)
+pids = basic_functions.get_pids(project, parameters)
 
-pids = []
-for pd in parameters:
-    pids.append(project.select("SELECT parameterID FROM tbl_parameter WHERE description = '" + pd + "'")[0][0])
-
-selection = project.select("SELECT s.SOPinstanceUID, s.segmentationID FROM (tbl_segmentation AS s INNER JOIN tbl_data AS d ON s.SOPinstanceUID = d.SOPinstanceUID) WHERE d.description='TRAINING'")
-data = []
-info_data = []
-for i in range(len(selection)):
-    data.append([selection[i][0], selection[i][1]])
-    info_data.append(project.get_data_parameters(selection[i][0], pids))
-info_data = np.array(info_data)
-
-selection = project.select("SELECT s.SOPinstanceUID, s.segmentationID FROM (tbl_segmentation AS s INNER JOIN tbl_data AS d ON s.SOPinstanceUID = d.SOPinstanceUID) WHERE d.description='TESTHEALTHY'")
-data_test = []
-info_data_test = []
-for i in range(len(selection)):
-    data_test.append([selection[i][0], selection[i][1]])
-    info_data_test.append(project.get_data_parameters(selection[i][0], pids))
-info_data_test = np.array(info_data_test)
-
-# HCM Patient
-selection = project.select("SELECT s.SOPinstanceUID, s.segmentationID FROM (tbl_segmentation AS s INNER JOIN tbl_data AS d ON s.SOPinstanceUID = d.SOPinstanceUID) WHERE d.description='TESTPATIENTHCM'")
-data_patient_hcm = []
-info_data_patient_hcm = []
-for i in range(len(selection)):
-    #dcm = project.get_data(selection[i][0])[0]
-    #if "d13b" in str(dcm[0x0018, 0x1020].value).lower():
-    #    continue
-    data_patient_hcm.append([selection[i][0], selection[i][1]])
-    info_data_patient_hcm.append(project.get_data_parameters(selection[i][0], pids))
-info_data_patient_hcm = np.array(info_data_patient_hcm)
-
-# Amyloidose Patient
-selection = project.select("SELECT s.SOPinstanceUID, s.segmentationID FROM (tbl_segmentation AS s INNER JOIN tbl_data AS d ON s.SOPinstanceUID = d.SOPinstanceUID) WHERE d.description='TESTPATIENTAMYLOIDOSE'")
-data_patient_amy = []
-info_data_patient_amy = []
-for i in range(len(selection)):
-    data_patient_amy.append([selection[i][0], selection[i][1]])
-    info_data_patient_amy.append(project.get_data_parameters(selection[i][0], pids))
-info_data_patient_amy = np.array(info_data_patient_amy)
-
-# load training
-file_s2 = os.path.join(r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\6 - Analysis\TRAINING_FINAL_BACKUP", "train_step2_top3_binning.txt")
-file = open(file_s2, "r")
-readdata = file.readlines()
-file.close()
-setup_info = [readdata[ii].split("\t") for ii in range(1, len(readdata))]
-evalS2 = np.array(setup_info)[:,-1].flatten().astype(float)
-index_top = np.argsort(evalS2)[0] # lowest CoV is best
-best_setup = setup_info[index_top]
-
-setupID = project.select("SELECT setupID FROM tbl_setup WHERE description = '" + best_setup[0] + "'")[0][0]
-#setupID = project.select("SELECT setupID FROM tbl_setup WHERE bins=4 AND clustertype='kmeans' AND regressiontype='linear'")[0][0]
-setupID = project.select("SELECT setupID FROM tbl_setup WHERE bins=2 AND clustertype='aglomerative_single' AND regressiontype='linearsvr'")[0][0]
+data, info_data = basic_functions.get_data_info(project, "TRAINING", pids)
+data_test, info_data_test = basic_functions.get_data_info(project, "TESTHEALTHY", pids)
+data_patient_hcm, info_data_patient_hcm = basic_functions.get_data_info(project, "TESTPATIENTHCM", pids)
+data_patient_amy, info_data_patient_amy = basic_functions.get_data_info(project, "TESTPATIENTAMYLOIDOSE", pids)
 
 ########################################################################################################################
 # MR AND MASK IMAGE ####################################################################################################
@@ -249,8 +210,6 @@ for i in range(bins):
     plt.savefig(os.path.join(path_out, "regression_bin" + str(i+1) + ".jpg"), dpi=300)
 
 a = 0
-
-
 
 ########################################################################################################################
 # OUTPUT HIST ##########################################################################################################

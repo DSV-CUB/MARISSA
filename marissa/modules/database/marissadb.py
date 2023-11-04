@@ -17,13 +17,6 @@ from marissa.modules import regression as regression
 #from marissa.modules.pesf import pesf
 from marissa.toolbox.creators import creator_sqlitedb, creator_marissadata
 
-class Configuration:
-    def __init__(self):
-        self.path = None
-        self.name = "MARISSA"
-        self.address_range = [0, 4294967295]
-        return
-
 
 class Module(creator_sqlitedb.Inheritance):
     def __init__(self, path):
@@ -50,7 +43,6 @@ class Module(creator_sqlitedb.Inheritance):
             # tbl_segmentation
             # *segmentationID = unique identifier
             # SOPinstanceUID = SOP Instance UID of DICOM
-            # object = name of the contour (like epicardial, endocardial, myocardial, ...)
             # creator = name of the person that created the contour
             # points = array of points defining the contour
             # mask = array representing the segmented area/volume as binary mask
@@ -121,6 +113,7 @@ class Module(creator_sqlitedb.Inheritance):
             # * parameterID
             # * SOPinstanceUID
             # * segmentationID
+            # * VMindex
             self.execute("CREATE TABLE IF NOT EXISTS tbl_standardization_match_data_setup_parameter (setupID INTEGER NOT NULL, parameterID INTEGER NOT NULL, SOPinstanceUID TEXT NOT NULL, segmentationID INTEGER NOT NULL, VMindex INTEGER, PRIMARY KEY(setupID, parameterID, SOPinstanceUID, segmentationID, VMindex), FOREIGN KEY(SOPinstanceUID, setupID, segmentationID) REFERENCES tbl_standardization_data(SOPinstanceUID, setupID, segmentationID), FOREIGN KEY(parameterID) REFERENCES tbl_standardization_parameter(parameterID));")
 
             # tbl_standardization

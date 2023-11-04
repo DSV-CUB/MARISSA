@@ -13,7 +13,7 @@ warnings.filterwarnings('ignore')
 
 # SETUP
 project_path = r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\4 - Tools\marissa\appdata\projects\DoktorarbeitDSV.marissadb"
-path_out = r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\6 - Analysis\TRAINING_FINAL"
+path_out = r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\6 - Analysis\TRAINING_FINAL_PAPER"
 #parameters = ["PatientsAge", "PatientsSex", "BMIgroup3", "System", "T1Sequence"]
 #reference = ["18Y", "M", 0, "SIEMENS#Verio#syngo MR B17", "MOLLI"]
 

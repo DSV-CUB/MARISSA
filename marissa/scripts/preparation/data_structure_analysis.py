@@ -1,7 +1,6 @@
 import numpy as np
 import os
 from marissa.modules.database import marissadb
-from marissa.modules.pesf import pesf
 from marissa.toolbox.tools import tool_general, tool_R
 
 path_db = r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\6 - Analysis\DB"

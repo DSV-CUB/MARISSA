@@ -1211,4 +1211,7 @@ def get_python_packages(path):
     return packages, versions
 
 if __name__ == "__main__":
-    pass
+    p, v = get_python_packages(r"C:\Users\CMRT\Documents\DSV\3 - Promotion\Project MARISSA\4 - Tools\marissa\marissa")
+    p = np.sort(np.array(p))
+    for i in range(len(p)):
+        print(p[i])
