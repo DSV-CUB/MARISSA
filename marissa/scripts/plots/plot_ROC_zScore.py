@@ -118,11 +118,11 @@ def plot_roc_overhead(ax):
 
 cmap = cm.get_cmap('nipy_spectral')
 
-fig = plt.figure(None, figsize=(24, 24), constrained_layout=True)
+fig = plt.figure(None, figsize=(8, 24), constrained_layout=True)
 subfigs = fig.subfigures(3, 1)#, width_ratios = [0.05, 1, 1, 0.05], height_ratios = [1, 1, 1])
-axes_sf0 = subfigs[0].subplots(1,3, gridspec_kw={'width_ratios': [1] * 3, 'height_ratios': [1]})
-axes_sf1 = subfigs[1].subplots(1,3, gridspec_kw={'width_ratios': [1] * 3, 'height_ratios': [1]})
-axes_sf2 = subfigs[2].subplots(1,3, gridspec_kw={'width_ratios': [1] * 3, 'height_ratios': [1]})
+axes_sf0 = subfigs[0].subplots(1,1, gridspec_kw={'width_ratios': [1] * 1, 'height_ratios': [1]})
+axes_sf1 = subfigs[1].subplots(1,1, gridspec_kw={'width_ratios': [1] * 1, 'height_ratios': [1]})
+axes_sf2 = subfigs[2].subplots(1,1, gridspec_kw={'width_ratios': [1] * 1, 'height_ratios': [1]})
 ax = np.vstack((axes_sf0, axes_sf1, axes_sf2))
 
 subfigs[0].supylabel("HTE vs. HCM", fontsize=20, fontweight="bold")
@@ -130,12 +130,10 @@ subfigs[1].supylabel("HTE vs. AMY", fontsize=20, fontweight="bold")
 subfigs[2].supylabel("HCM vs. AMY", fontsize=20, fontweight="bold")
 
 
-ax[0,0].set_title("original", fontsize=20, fontweight="bold")
-ax[0,1].set_title("after standardization", fontsize=20, fontweight="bold")
-ax[0,2].set_title("with z-Score", fontsize=20, fontweight="bold")
+ax[0,0].set_title("with z-Score", fontsize=20, fontweight="bold")
 
 for ii in range(3):
-    for iii in range(3):
+    for iii in range(1):
         plot_roc_overhead(ax[ii,iii])
 
 # INTRA-SCANNER-INTRA-SEQUENCE PLOTS
@@ -154,26 +152,26 @@ for uhcm in np.unique(parameter_HCM):
 
     # Healthy s HCM
     if len(indeces) > 0:
-        roc_analysis = tool_statistics.roc_curve_analysis(patient_before_hcm[indeces_hcm], healthy_all_before[indeces])
-        plot_roc(ax[0,0], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uhcm + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
+        #roc_analysis = tool_statistics.roc_curve_analysis(patient_before_hcm[indeces_hcm], healthy_all_before[indeces])
+        #plot_roc(ax[0,0], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uhcm + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
 
-        roc_analysis = tool_statistics.roc_curve_analysis(patient_after_hcm[indeces_hcm], healthy_all_after[indeces])
-        plot_roc(ax[0,1], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uhcm + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
+        #roc_analysis = tool_statistics.roc_curve_analysis(patient_after_hcm[indeces_hcm], healthy_all_after[indeces])
+        #plot_roc(ax[0,1], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uhcm + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
 
         roc_analysis = tool_statistics.roc_curve_analysis(z_score_hcm[indeces_hcm], z_score_healthy[indeces])
-        plot_roc(ax[0,2], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uhcm + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
+        plot_roc(ax[0,0], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uhcm + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
 
     #HCM vs AMY
     indeces = np.argwhere(np.array(parameter_AMY)==uhcm).flatten()
     if len(indeces) > 0:
-        roc_analysis = tool_statistics.roc_curve_analysis(patient_before_amy[indeces], patient_before_hcm[indeces_hcm])
-        plot_roc(ax[2,0], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uhcm + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
+        #roc_analysis = tool_statistics.roc_curve_analysis(patient_before_amy[indeces], patient_before_hcm[indeces_hcm])
+        #plot_roc(ax[2,0], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uhcm + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
 
-        roc_analysis = tool_statistics.roc_curve_analysis(patient_after_amy[indeces], patient_after_hcm[indeces_hcm])
-        plot_roc(ax[2,1], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uhcm + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
+        #roc_analysis = tool_statistics.roc_curve_analysis(patient_after_amy[indeces], patient_after_hcm[indeces_hcm])
+        #plot_roc(ax[2,1], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uhcm + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
 
         roc_analysis = tool_statistics.roc_curve_analysis(z_score_amy[indeces], z_score_hcm[indeces_hcm])
-        plot_roc(ax[2,2], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uhcm + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
+        plot_roc(ax[2,0], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uhcm + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
 
 
 for uamy in np.unique(parameter_AMY):
@@ -185,23 +183,23 @@ for uamy in np.unique(parameter_AMY):
 
     # Healthy vs AMY
     if len(indeces) > 0:
-        roc_analysis = tool_statistics.roc_curve_analysis(patient_before_amy[indeces_amy], healthy_all_before[indeces])
-        plot_roc(ax[1,0], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uamy + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
+        #roc_analysis = tool_statistics.roc_curve_analysis(patient_before_amy[indeces_amy], healthy_all_before[indeces])
+        #plot_roc(ax[1,0], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uamy + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
 
-        roc_analysis = tool_statistics.roc_curve_analysis(patient_after_amy[indeces_amy], healthy_all_after[indeces])
-        plot_roc(ax[1,1], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uamy + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
+        #roc_analysis = tool_statistics.roc_curve_analysis(patient_after_amy[indeces_amy], healthy_all_after[indeces])
+        #plot_roc(ax[1,1], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uamy + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
 
         roc_analysis = tool_statistics.roc_curve_analysis(z_score_amy[indeces_amy], z_score_healthy[indeces])
-        plot_roc(ax[1,2], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uamy + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
+        plot_roc(ax[1,0], roc_analysis, c=color, optimum_colour=color, optimum_text=False,  label=uamy + "\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10)
 
 # AFTER STANDARDIZATION ONLY
-roc_analysis_healthy_hcm = tool_statistics.roc_curve_analysis(patient_after_hcm, healthy_all_after)
-roc_analysis_healthy_amy = tool_statistics.roc_curve_analysis(patient_after_amy, healthy_all_after)
-roc_analysis_hcm_amy = tool_statistics.roc_curve_analysis(patient_after_amy, patient_after_hcm)
+#roc_analysis_healthy_hcm = tool_statistics.roc_curve_analysis(patient_after_hcm, healthy_all_after)
+#roc_analysis_healthy_amy = tool_statistics.roc_curve_analysis(patient_after_amy, healthy_all_after)
+#roc_analysis_hcm_amy = tool_statistics.roc_curve_analysis(patient_after_amy, patient_after_hcm)
 
-plot_roc(ax[0,1], roc_analysis_healthy_hcm, c="#008800", optimum_colour="#008800", optimum_text=False,  label="all scanners | all sequence variants\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis_healthy_hcm["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis_healthy_hcm["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10, thick=True)
-plot_roc(ax[1,1], roc_analysis_healthy_amy, c="#008800", optimum_colour="#008800", optimum_text=False,  label="all scanners | all sequence variants\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis_healthy_amy["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis_healthy_amy["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10, thick=True)
-plot_roc(ax[2,1], roc_analysis_hcm_amy, c="#008800", optimum_colour="#008800", optimum_text=False,  label="all scanners | all sequence variants\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis_hcm_amy["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis_hcm_amy["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10, thick=True)
+#plot_roc(ax[0,1], roc_analysis_healthy_hcm, c="#008800", optimum_colour="#008800", optimum_text=False,  label="all scanners | all sequence variants\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis_healthy_hcm["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis_healthy_hcm["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10, thick=True)
+#plot_roc(ax[1,1], roc_analysis_healthy_amy, c="#008800", optimum_colour="#008800", optimum_text=False,  label="all scanners | all sequence variants\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis_healthy_amy["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis_healthy_amy["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10, thick=True)
+#plot_roc(ax[2,1], roc_analysis_hcm_amy, c="#008800", optimum_colour="#008800", optimum_text=False,  label="all scanners | all sequence variants\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis_hcm_amy["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis_hcm_amy["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10, thick=True)
 
 # AFTER Z SCORE ONLY
 z_score_amy = z_score_amy[np.logical_not(np.isnan(z_score_amy))]
@@ -209,9 +207,9 @@ roc_analysis_healthy_hcm = tool_statistics.roc_curve_analysis(z_score_hcm, z_sco
 roc_analysis_healthy_amy = tool_statistics.roc_curve_analysis(z_score_amy, z_score_healthy)
 roc_analysis_hcm_amy = tool_statistics.roc_curve_analysis(z_score_amy, z_score_hcm)
 
-plot_roc(ax[0,2], roc_analysis_healthy_hcm, c="#008800", optimum_colour="#008800", optimum_text=False,  label="all scanners | all sequence variants\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis_healthy_hcm["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis_healthy_hcm["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10, thick=True)
-plot_roc(ax[1,2], roc_analysis_healthy_amy, c="#008800", optimum_colour="#008800", optimum_text=False,  label="all scanners | all sequence variants\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis_healthy_amy["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis_healthy_amy["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10, thick=True)
-plot_roc(ax[2,2], roc_analysis_hcm_amy, c="#008800", optimum_colour="#008800", optimum_text=False,  label="all scanners | all sequence variants\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis_hcm_amy["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis_hcm_amy["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10, thick=True)
+plot_roc(ax[0,0], roc_analysis_healthy_hcm, c="#008800", optimum_colour="#008800", optimum_text=False,  label="all scanners | all sequence variants\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis_healthy_hcm["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis_healthy_hcm["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10, thick=True)
+plot_roc(ax[1,0], roc_analysis_healthy_amy, c="#008800", optimum_colour="#008800", optimum_text=False,  label="all scanners | all sequence variants\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis_healthy_amy["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis_healthy_amy["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10, thick=True)
+plot_roc(ax[2,0], roc_analysis_hcm_amy, c="#008800", optimum_colour="#008800", optimum_text=False,  label="all scanners | all sequence variants\nsensitivity = " + "{:.2f}".format(np.round(roc_analysis_hcm_amy["optimal_roc_point"][1] * 100, 2)) + "% | specificity = " + "{:.2f}".format(np.round(100 - roc_analysis_hcm_amy["optimal_roc_point"][0] * 100, 2)) + " %", zorder=10, thick=True)
 
 # ADD LEGENDS TO SUBPLOTS
 legend = ax[0,0].legend(loc="lower center", fontsize=14)
@@ -224,31 +222,31 @@ legend = ax[2,0].legend(loc="lower center", fontsize=14)
 legend.get_frame().set_facecolor('#efefef66')
 legend.set_zorder(100)
 
-legend = ax[0,1].legend(loc="lower center", fontsize=14)
-legend.get_frame().set_facecolor('#efefef66')
-legend.set_zorder(100)
-legend = ax[1,1].legend(loc="lower center", fontsize=14)
-legend.get_frame().set_facecolor('#efefef66')
-legend.set_zorder(100)
-legend = ax[2,1].legend(loc="lower center", fontsize=14)
-legend.get_frame().set_facecolor('#efefef66')
-legend.set_zorder(100)
+#legend = ax[0,1].legend(loc="lower center", fontsize=14)
+#legend.get_frame().set_facecolor('#efefef66')
+#legend.set_zorder(100)
+#legend = ax[1,1].legend(loc="lower center", fontsize=14)
+#legend.get_frame().set_facecolor('#efefef66')
+#legend.set_zorder(100)
+#legend = ax[2,1].legend(loc="lower center", fontsize=14)
+#legend.get_frame().set_facecolor('#efefef66')
+#legend.set_zorder(100)
 
-legend = ax[0,2].legend(loc="lower center", fontsize=14)
-legend.get_frame().set_facecolor('#efefef66')
-legend.set_zorder(100)
-legend = ax[1,2].legend(loc="lower center", fontsize=14)
-legend.get_frame().set_facecolor('#efefef66')
-legend.set_zorder(100)
-legend = ax[2,2].legend(loc="lower center", fontsize=14)
-legend.get_frame().set_facecolor('#efefef66')
-legend.set_zorder(100)
+#legend = ax[0,2].legend(loc="lower center", fontsize=14)
+#legend.get_frame().set_facecolor('#efefef66')
+#legend.set_zorder(100)
+#legend = ax[1,2].legend(loc="lower center", fontsize=14)
+#legend.get_frame().set_facecolor('#efefef66')
+#legend.set_zorder(100)
+#legend = ax[2,2].legend(loc="lower center", fontsize=14)
+#legend.get_frame().set_facecolor('#efefef66')
+#legend.set_zorder(100)
 
 for i in range(3):
-    for j in range(3):
+    for j in range(1):
         ax[i,j].xaxis.set_tick_params(labelsize=18)
         ax[i,j].yaxis.set_tick_params(labelsize=18)
 
 
 #plt.tight_layout()
-plt.savefig(os.path.join(path_out, "roc_analysis_zscore.jpg"), dpi=300)
+plt.savefig(os.path.join(path_out, "roc_analysis_zscore_only.jpg"), dpi=300)

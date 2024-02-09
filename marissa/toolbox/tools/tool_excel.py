@@ -40,16 +40,17 @@ class Setup:
             max_row = 0
 
         for i in range(len(data)):
-            try:
-                if formating is None:
-                    self.worksheets[name].write_number(self.row[name], i, float(data[i]))
-                else:
-                    self.worksheets[name].write_number(self.row[name], i, float(data[i]), formating)
-            except:
-                if formating is None:
-                    self.worksheets[name].write(self.row[name], i, str(data[i]))
-                else:
-                    self.worksheets[name].write(self.row[name], i, str(data[i]), formating)
+            if not data[i] is None:
+                try:
+                    if formating is None:
+                        self.worksheets[name].write_number(self.row[name], i, float(data[i]))
+                    else:
+                        self.worksheets[name].write_number(self.row[name], i, float(data[i]), formating)
+                except:
+                    if formating is None:
+                        self.worksheets[name].write(self.row[name], i, str(data[i]))
+                    else:
+                        self.worksheets[name].write(self.row[name], i, str(data[i]), formating)
 
         if max_row > self.row[name]:
             self.row[name] = max_row

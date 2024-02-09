@@ -21,7 +21,14 @@ def get_pids(project, parameters):
 
 
 def get_data_info(project, description, pids):
-    selection = project.select("SELECT s.SOPinstanceUID, s.segmentationID FROM (tbl_segmentation AS s INNER JOIN tbl_data AS d ON s.SOPinstanceUID = d.SOPinstanceUID) WHERE d.description='" + description + "'")
+    if type(description) == list:
+        wheredescription = " WHERE "
+        for i in range(len(description)):
+            wheredescription = wheredescription + "d.description='" + description[i] + "' OR "
+        wheredescription = wheredescription[:-4]
+        selection = project.select("SELECT s.SOPinstanceUID, s.segmentationID FROM (tbl_segmentation AS s INNER JOIN tbl_data AS d ON s.SOPinstanceUID = d.SOPinstanceUID)" + wheredescription)
+    else:
+        selection = project.select("SELECT s.SOPinstanceUID, s.segmentationID FROM (tbl_segmentation AS s INNER JOIN tbl_data AS d ON s.SOPinstanceUID = d.SOPinstanceUID) WHERE d.description='" + description + "'")
     data = []
     info_data = []
     for i in range(len(selection)):
